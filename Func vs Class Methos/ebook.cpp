@@ -50,7 +50,7 @@ public:
                     users_less_page += it->second;
                     ++it;
                 }
-                return users_less_page / static_cast<double>(users_quantity - 1);
+                return users_less_page * 1. / (users_quantity - 1);
             }
         }
     }
