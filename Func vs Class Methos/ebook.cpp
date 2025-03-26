@@ -10,30 +10,36 @@ private:
     std::unordered_map<int, int> pages_for_users_; // max page for each user. user_id, max_page.
     std::map<int, int> users_for_pages_; // number of users read page. page_number, number of users.
 
-public:
-    void Read(const int& user_id, const int& page_count) {
-        int old_page = pages_for_users_[user_id];
-        if (users_for_pages_[old_page] == 1) {
-            users_for_pages_.erase(old_page);
-        }
-        else if (users_for_pages_[old_page] > 1) {
+    void UpdateUsersForPages(int user_id, int page_count) {
+        if (pages_for_users_.find(user_id) != pages_for_users_.end()) {
+            auto old_page = pages_for_users_[user_id];
             users_for_pages_[old_page] -= 1;
         }
-        users_for_pages_[page_count] += 1;
+        if (users_for_pages_.find(page_count) == users_for_pages_.end()) {
+            users_for_pages_[page_count] = 1;
+        }
+        else {
+            users_for_pages_[page_count] += 1;
+        }
+    }
+
+public:
+    void Read(int user_id, int page_count) {
+        UpdateUsersForPages(user_id, page_count);
         pages_for_users_[user_id] = page_count;
     }
 
-    double Cheer(const int& user_id) {
+    double Cheer(int user_id) {
         if (pages_for_users_.find(user_id) == pages_for_users_.end()) {
             return 0.;
         }
         else {
-            int users_quantity = pages_for_users_.size(); // number of users
+            auto users_quantity = pages_for_users_.size(); // number of users
             if (users_quantity == 1) {
                 return 1.;
             }
             else {
-                int user_page = pages_for_users_[user_id];
+                auto user_page = pages_for_users_[user_id];
                 auto max_users_for_pages_it = users_for_pages_.find(user_page);
                 if (max_users_for_pages_it == users_for_pages_.begin()) {
                     return 0.;
