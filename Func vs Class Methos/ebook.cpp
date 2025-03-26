@@ -10,22 +10,16 @@ private:
     std::unordered_map<int, int> pages_for_users_; // max page for each user. user_id, max_page.
     std::map<int, int> users_for_pages_; // number of users read page. page_number, number of users.
 
-    void UpdateUsersForPages(int user_id, int page_count) {
-        if (pages_for_users_.find(user_id) != pages_for_users_.end()) {
-            auto old_page = pages_for_users_[user_id];
-            users_for_pages_[old_page] -= 1;
-        }
-        if (users_for_pages_.find(page_count) == users_for_pages_.end()) {
-            users_for_pages_[page_count] = 1;
-        }
-        else {
-            users_for_pages_[page_count] += 1;
-        }
-    }
-
 public:
     void Read(int user_id, int page_count) {
-        UpdateUsersForPages(user_id, page_count);
+        auto old_page = pages_for_users_[user_id];
+        if (users_for_pages_[old_page] == 1) {
+            users_for_pages_.erase(old_page);
+        }
+        else if (users_for_pages_[old_page] > 1) {
+            users_for_pages_[old_page] -= 1;
+        }
+        users_for_pages_[page_count] += 1;
         pages_for_users_[user_id] = page_count;
     }
 
