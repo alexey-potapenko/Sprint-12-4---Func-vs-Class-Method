@@ -24,6 +24,7 @@
     <ProjectGuid>{fc20eb0e-80d3-426f-8c30-ca0cd0d14322}</ProjectGuid>
     <RootNamespace>FuncvsClassMethos</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Func vs Class Method</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
